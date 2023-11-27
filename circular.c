@@ -9,28 +9,27 @@ struct Node {
 void insert(struct Node** head, int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
+    newNode->next = *head;
 
-    if (*head == NULL) {
-        *head = newNode;
-        newNode->next = newNode;
+    if (*head != NULL) {
+        struct Node* temp = *head;
+        while (temp->next != *head) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
     } else {
-        struct Node* last = *head;
-        while (last->next != *head)
-            last = last->next;
-        newNode->next = *head;
-        last->next = newNode;
-        *head = newNode;
+        newNode->next = newNode;
     }
+
+    *head = newNode;
 }
 
 void reverse(struct Node** head) {
-    if (*head == NULL)
+    if (*head == NULL || (*head)->next == *head) {
         return;
+    }
 
-    struct Node* current = *head;
-    struct Node* prev = NULL;
-    struct Node* next = NULL;
-
+    struct Node *prev = NULL, *current = *head, *next = NULL;
     do {
         next = current->next;
         current->next = prev;
@@ -38,12 +37,14 @@ void reverse(struct Node** head) {
         current = next;
     } while (current != *head);
 
+    (*head)->next = prev;
     *head = prev;
 }
 
 void display(struct Node* head) {
-    if (head == NULL)
+    if (head == NULL) {
         return;
+    }
 
     struct Node* temp = head;
     do {
