@@ -9,15 +9,19 @@ struct Node {
 void insert(struct Node** head, int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
+    newNode->next = *head;
 
-    if (*head == NULL) {
-        *head = newNode;
-        newNode->next = newNode;
+    if (*head != NULL) {
+        struct Node* temp = *head;
+        while (temp->next != *head) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
     } else {
-        newNode->next = (*head)->next;
-        (*head)->next = newNode;
-        *head = newNode;
+        newNode->next = newNode;
     }
+
+    *head = newNode;
 }
 
 void reverse(struct Node** head) {
