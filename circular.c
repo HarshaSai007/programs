@@ -9,19 +9,15 @@ struct Node {
 void insert(struct Node** head, int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
-    newNode->next = *head;
 
-    if (*head != NULL) {
-        struct Node* temp = *head;
-        while (temp->next != *head) {
-            temp = temp->next;
-        }
-        temp->next = newNode;
-    } else {
+    if (*head == NULL) {
+        *head = newNode;
         newNode->next = newNode;
+    } else {
+        newNode->next = (*head)->next;
+        (*head)->next = newNode;
+        *head = newNode;
     }
-
-    *head = newNode;
 }
 
 void reverse(struct Node** head) {
@@ -42,12 +38,16 @@ void reverse(struct Node** head) {
 }
 
 void display(struct Node* head) {
-    
+    if (head == NULL) {
+        return;
+    }
+
     struct Node* temp = head;
     do {
-        printf("%d \n", temp->data);
+        printf("%d ", temp->data);
         temp = temp->next;
     } while (temp != head);
+    printf("\n");
 }
 
 int main() {
