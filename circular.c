@@ -42,16 +42,12 @@ void reverse(struct Node** head) {
 }
 
 void display(struct Node* head) {
-    if (head == NULL) {
-        return;
-    }
-
+    
     struct Node* temp = head;
     do {
-        printf("%d ", temp->data);
+        printf("%d \n", temp->data);
         temp = temp->next;
     } while (temp != head);
-    printf("\n");
 }
 
 int main() {
